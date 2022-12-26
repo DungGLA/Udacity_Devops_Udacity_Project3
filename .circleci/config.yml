@@ -293,7 +293,7 @@ jobs:
       - checkout
       # Add ssh keys with fingerprint
       - add_ssh_keys:
-          fingerprints: ["6d:1b:ff:cb:6f:f7:ee:12:db:cf:e6:b7:cd:69:cd:df]
+          fingerprints: ["6d:1b:ff:cb:6f:f7:ee:12:db:cf:e6:b7:cd:69:cd:df"]
       # attach workspace
       - attach_workspace:
         at: ~/
@@ -392,7 +392,7 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            yum -y install curl nodejs tar gzip 
+            yum -y install curl nodejs tar gzip
       - run:
           name: Update cloudfront distribution
           command: |
