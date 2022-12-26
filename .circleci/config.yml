@@ -202,7 +202,7 @@ jobs:
           fingerprints: ["6d:1b:ff:cb:6f:f7:ee:12:db:cf:e6:b7:cd:69:cd:df"]
       # attach workspace
       - attach_workspace:
-        at: ~/
+          at: ~/
       - run:
           name: Install dependencies
           command: |
@@ -296,7 +296,7 @@ jobs:
           fingerprints: ["6d:1b:ff:cb:6f:f7:ee:12:db:cf:e6:b7:cd:69:cd:df"]
       # attach workspace
       - attach_workspace:
-        at: ~/
+          at: ~/
       - run:
           name: Install dependencies
           command: |
