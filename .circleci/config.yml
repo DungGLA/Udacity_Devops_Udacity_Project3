@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@2.1.0
-  slack: circleci/slack@4.10.1
+  slack: circleci/slack@4.9.4
 
 commands:
   destroy-environment:
@@ -133,6 +133,10 @@ jobs:
             npm i
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
+      - slack/notify:
+          channel: "#snack-alerts"
+          event: fail
+          template: basic_fail_1
 
   scan-backend:
     docker:
