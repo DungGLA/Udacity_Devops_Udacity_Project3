@@ -162,6 +162,16 @@ jobs:
             npm i
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
+      - slack/notify:
+          event: fail
+          channel: C04H1DVPUAD
+          mentions: "@everyone"
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          channel: C04H1DVPUAD
+          mentions: "@everyone"
+          template: success_tagged_deploy_1
 
   deploy-infrastructure:
     docker:
@@ -454,6 +464,7 @@ workflows:
       - test-backend:
           requires: [build-backend]
       - scan-backend:
+          context: slack-secrets
           requires: [build-backend]
       - scan-frontend:
           context: slack-secrets
