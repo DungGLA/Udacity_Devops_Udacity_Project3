@@ -138,13 +138,11 @@ jobs:
           channel: C04H1DVPUAD
           mentions: "@everyone"
           template: basic_fail_1
-          message: This is a slack message notification
       - slack/notify:
           event: pass
           channel: C04H1DVPUAD
           mentions: "@everyone"
           template: success_tagged_deploy_1
-          message: This is a slack message notification
 
   scan-backend:
     docker:
