@@ -405,31 +405,31 @@ jobs:
       # Here's where you will add some code to rollback on failure
       - destroy-environment
       - revert-migrations
-cleanup:
-  docker:
-    # Docker image here
-    - image: amazon/aws-cli
-  steps:
-    # Checkout code from git
-    - checkout
-    - run:
-        name: Get old stack workflow id
-        command: |
-          # your code here
-          export OldWorkflowID=$(curl --insecure https://kvdb.io/8KEc4SCTmC9m6fMN5KeEBE/${CIRCLE_WORKFLOW_ID:0:7})
-          echo OldWorkflowID: "${OldWorkflowID}"
-          export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
-            --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
-    - run:
-        name: Remove old stacks and files
-        command: |
-          if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
-          then
+  cleanup:
+    docker:
+      # Docker image here
+      - image: amazon/aws-cli
+    steps:
+      # Checkout code from git
+      - checkout
+      - run:
+          name: Get old stack workflow id
+          command: |
             # your code here
-            aws cloudformation delete-stack --stack-name dunggla-udapeople-frontend-${OldWorkflowID}
-              aws cloudformation delete-stack --stack-name dunggla-udapeople-backend-${OldWorkflowID}
-              aws s3 rb s3://udapeople-${OldWorkflowID} --force
-          fi
+            export OldWorkflowID=$(curl --insecure https://kvdb.io/8KEc4SCTmC9m6fMN5KeEBE/${CIRCLE_WORKFLOW_ID:0:7})
+            echo OldWorkflowID: "${OldWorkflowID}"
+            export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
+              --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
+      - run:
+          name: Remove old stacks and files
+          command: |
+            if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
+            then
+              # your code here
+              aws cloudformation delete-stack --stack-name dunggla-udapeople-frontend-${OldWorkflowID}
+                aws cloudformation delete-stack --stack-name dunggla-udapeople-backend-${OldWorkflowID}
+                aws s3 rb s3://udapeople-${OldWorkflowID} --force
+            fi
 
 workflows:
   default:
