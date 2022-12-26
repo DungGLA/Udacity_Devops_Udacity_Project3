@@ -135,10 +135,13 @@ jobs:
             npm audit --audit-level=critical
       - slack/notify:
           event: fail
-          mentions: "@DungGLA"
+          channel: general
+          mentions: "@everyone"
           template: basic_fail_1
       - slack/notify:
           event: pass
+          channel: general
+          mentions: "@everyone"
           template: success_tagged_deploy_1
 
   scan-backend:
