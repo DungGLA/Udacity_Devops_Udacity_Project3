@@ -203,7 +203,9 @@ jobs:
             - project/.circleci/ansible/inventory.txt
       # Here's where you will add some code to rollback on failure
       - destroy-environment
+          workflow-id: "${CIRCLE_WORKFLOW_ID:0:7}"
       - revert-migrations
+          workflow-id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
   configure-infrastructure:
     docker:
@@ -228,11 +230,10 @@ jobs:
           command: |
             # Your code here
             cd .circleci/ansible
-            cat ~/project/.circleci/ansible/inventory.txt 
             ansible-playbook -i inventory.txt configure-server.yml
       # Here's where you will add some code to rollback on failure
       - destroy-environment
-      - revert-migrations
+          workflow-id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
   run-migrations:
     docker:
@@ -241,6 +242,8 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
+      - restore_cache:
+          keys: [backend-build]
       - run:
           name: Run migrations
           command: |
@@ -263,7 +266,7 @@ jobs:
             fi
       # Here's where you will add some code to rollback on failure
       - destroy-environment
-      - revert-migrations
+          workflow-id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
   deploy-frontend:
     docker:
@@ -297,7 +300,9 @@ jobs:
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       # Here's where you will add some code to rollback on failure
       - destroy-environment
+          workflow-id: "${CIRCLE_WORKFLOW_ID:0:7}"
       - revert-migrations
+          workflow-id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
   deploy-backend:
     docker:
@@ -325,14 +330,17 @@ jobs:
             cd backend
             npm i
             npm run build
-            cp package* ./dist
             cd ..
             tar -C backend -czvf artifact.tar.gz .
             cd .circleci/ansible
+            echo "Contents  of the inventory.txt file is -------"
+            cat inventory.txt
             ansible-playbook -i ./inventory.txt ./deploy-backend.yml
       # Here's where you will add some code to rollback on failure
       - destroy-environment
+          workflow-id: "${CIRCLE_WORKFLOW_ID:0:7}"
       - revert-migrations
+          workflow-id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
   smoke-test:
     docker:
@@ -394,7 +402,9 @@ jobs:
             fi
       # Here's where you will add some code to rollback on failure
       - destroy-environment
+          workflow-id: "${CIRCLE_WORKFLOW_ID:0:7}"
       - revert-migrations
+          workflow-id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
   cloudfront-update:
     docker:
@@ -419,7 +429,9 @@ jobs:
               --tags project=udapeople
       # Here's where you will add some code to rollback on failure
       - destroy-environment
+          workflow-id: "${CIRCLE_WORKFLOW_ID:0:7}"
       - revert-migrations
+          workflow-id: "${CIRCLE_WORKFLOW_ID:0:7}"
   cleanup:
     docker:
       # Docker image here
