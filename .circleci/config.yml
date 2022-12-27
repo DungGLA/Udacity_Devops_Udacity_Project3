@@ -241,6 +241,12 @@ jobs:
       - restore_cache:
           keys: [backend-build]
       - run:
+          name: install awscli and dependencies
+          command: |
+            sudo apt update
+            sudo apt upgrade -y
+            sudo apt install -y awscli
+      - run:
           name: Run migrations
           command: |
             # Your code here
