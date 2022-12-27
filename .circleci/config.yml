@@ -171,22 +171,23 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
+      - run: yum -y install tar gzip
       - run:
           name: Ensure back-end infrastructure exists
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
-              --tags project=udapeople \
-              --stack-name "dunggla-udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
+              --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
+              --tags project=udapeople
       - run:
           name: Ensure front-end infrastructure exist
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
-              --tags project=udapeople \
-              --stack-name "dunggla-udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
+              --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
+              --tags project=udapeople
       - run:
           name: Add back-end ip to ansible inventory
           command: |
@@ -213,7 +214,7 @@ jobs:
       - checkout
       # Add ssh keys with fingerprint
       - add_ssh_keys:
-          fingerprints: ["6d:1b:ff:cb:6f:f7:ee:12:db:cf:e6:b7:cd:69:cd:df"]
+          fingerprints: ["81:e6:a9:fc:42:0a:3b:f3:32:1d:3b:58:d9:c7:2d:e9"]
       # attach workspace
       - attach_workspace:
           at: ~/
@@ -307,7 +308,7 @@ jobs:
       - checkout
       # Add ssh keys with fingerprint
       - add_ssh_keys:
-          fingerprints: ["6d:1b:ff:cb:6f:f7:ee:12:db:cf:e6:b7:cd:69:cd:df"]
+          fingerprints: ["81:e6:a9:fc:42:0a:3b:f3:32:1d:3b:58:d9:c7:2d:e9"]
       # attach workspace
       - attach_workspace:
           at: ~/
@@ -413,7 +414,7 @@ jobs:
             # your code here
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
-              --stack-name dunggla-cloudfront-stack \
+              --stack-name InitialStack \
               --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
               --tags project=udapeople
       # Here's where you will add some code to rollback on failure
