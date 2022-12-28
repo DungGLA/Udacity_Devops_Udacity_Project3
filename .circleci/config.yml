@@ -346,13 +346,20 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
+      - add_ssh_keys:
+          fingerprints: ["81:e6:a9:fc:42:0a:3b:f3:32:1d:3b:58:d9:c7:2d:e9"]
+      - attach_workspace:
+          at: ~/
       - run:
           name: Install dependencies
           command: |
             # your code here
+            apk add --update ansible curl nodejs npm
+            pip3 install awscli
             apk update
-            apk add curl tar gzip nodejs npm
-            pip install awscli
+            apk upgrade
+            apk add curl
+            apk add --no-cache --upgrade bash
       - run:
           name: Get backend url
           command: |
