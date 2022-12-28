@@ -354,12 +354,10 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            apk add --update ansible curl nodejs npm
-            pip3 install awscli
-            apk update
             apk upgrade
-            apk add curl
-            apk add --no-cache --upgrade bash
+            apk update
+            apk add --update unzip curl nodejs npm
+            pip install awscli
       - run:
           name: Get backend url
           command: |
